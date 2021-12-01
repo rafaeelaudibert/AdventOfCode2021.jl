@@ -48,7 +48,7 @@ for d in solvedDays
 end
 
 # Benchmark a list of different problems:
-function benchmark(days=solvedDays)
+function benchmark(days = solvedDays)
     results = []
     for day in days
         modSymbol = Symbol(@sprintf("Day%02d", day))
@@ -56,18 +56,28 @@ function benchmark(days=solvedDays)
         fSymbol_part2 = Symbol("part2")
         input = readInput(joinpath(@__DIR__, "..", "data", @sprintf("day%02d.txt", day)))
         @eval begin
-            bresult_part1 = @benchmark(AdventOfCode2021Julia.$modSymbol.$fSymbol_part1($input))
-            bresult_part2 = @benchmark(AdventOfCode2021Julia.$modSymbol.$fSymbol_part2($input))
+            bresult_part1 =
+                @benchmark(AdventOfCode2021Julia.$modSymbol.$fSymbol_part1($input))
+            bresult_part2 =
+                @benchmark(AdventOfCode2021Julia.$modSymbol.$fSymbol_part2($input))
         end
-        push!(results, (day, (time(bresult_part1), memory(bresult_part1)), (time(bresult_part2), memory(bresult_part2))))
+        push!(
+            results,
+            (
+                day,
+                (time(bresult_part1), memory(bresult_part1)),
+                (time(bresult_part2), memory(bresult_part2)),
+            ),
+        )
     end
     return results
 end
 
 # Write the benchmark results into a markdown string:
-function _to_markdown_table(bresults=benchmark())
-    header = "| Day | Part 1 Time | Part 1 Allocated memory | Part 2 Time | Part 2 Allocated memory |\n" *
-             "|----:|------------:|------------------------:|------------:|------------------------:|"
+function _to_markdown_table(bresults = benchmark())
+    header =
+        "| Day | Part 1 Time | Part 1 Allocated memory | Part 2 Time | Part 2 Allocated memory |\n" *
+        "|----:|------------:|------------------------:|------------:|------------------------:|"
     lines = [header]
     for (d, (t1, m1), (t2, m2)) in bresults
         ds = string(d)
