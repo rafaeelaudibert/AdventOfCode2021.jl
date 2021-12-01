@@ -26,18 +26,24 @@ end
 export readInput
 
 
-# Export a function `dayXY` for each day:
+# Export a function `dayXY_partZ` for each day and part 1 and 2:
 for d in solvedDays
     global ds = @sprintf("day%02d.txt", d)
     global modSymbol = Symbol(@sprintf("Day%02d", d))
-    global dsSymbol = Symbol(@sprintf("day%02d", d))
+    global dsSymbol_part1 = Symbol(@sprintf("day%02d_part1", d))
+    global dsSymbol_part2 = Symbol(@sprintf("day%02d_part2", d))
 
     @eval begin
         input_path = joinpath(@__DIR__, "..", "data", ds)
-        function $dsSymbol(input::String = readInput($d))
-            return AdventOfCode2021.$modSymbol.$dsSymbol(input)
+        function $dsSymbol_part1(input::String = readInput($d))
+            return AdventOfCode2021Julia.$modSymbol.$dsSymbol_part1(input)
         end
-        export $dsSymbol
+        export $dsSymbol_part1
+
+        function $dsSymbol_part2(input::String = readInput($d))
+            return AdventOfCode2021Julia.$modSymbol.$dsSymbol_part2(input)
+        end
+        export $dsSymbol_part2
     end
 end
 
@@ -46,26 +52,30 @@ function benchmark(days=solvedDays)
     results = []
     for day in days
         modSymbol = Symbol(@sprintf("Day%02d", day))
-        fSymbol = Symbol(@sprintf("day%02d", day))
+        fSymbol_part1 = Symbol(@sprintf("day%02d_part1", day))
+        fSymbol_part2 = Symbol(@sprintf("day%02d_part2", day))
         input = readInput(joinpath(@__DIR__, "..", "data", @sprintf("day%02d.txt", day)))
         @eval begin
-            bresult = @benchmark(AdventOfCode2021.$modSymbol.$fSymbol($input))
+            bresult_part1 = @benchmark(AdventOfCode2021Julia.$modSymbol.$fSymbol_part1($input))
+            bresult_part2 = @benchmark(AdventOfCode2021Julia.$modSymbol.$fSymbol_part2($input))
         end
-        push!(results, (day, time(bresult), memory(bresult)))
+        push!(results, (day, (time(bresult_part1), memory(bresult_part1)), (time(bresult_part2), memory(bresult_part2))))
     end
     return results
 end
 
 # Write the benchmark results into a markdown string:
-function _to_markdown_table(bresults)
-    header = "| Day | Time | Allocated memory |\n" *
-             "|----:|-----:|-----------------:|"
+function _to_markdown_table(bresults=benchmark())
+    header = "| Day | Part 1 Time | Part 1 Allocated memory | Part 2 Time | Part 2 Allocated memory |\n" *
+             "|----:|------------:|------------------------:|------------:|------------------------:|"
     lines = [header]
-    for (d, t, m) in bresults
+    for (d, (t1, m1), (t2, m2)) in bresults
         ds = string(d)
-        ts = BenchmarkTools.prettytime(t)
-        ms = BenchmarkTools.prettymemory(m)
-        push!(lines, "| $ds | $ts | $ms |")
+        t1s = BenchmarkTools.prettytime(t1)
+        m1s = BenchmarkTools.prettymemory(m1)
+        t2s = BenchmarkTools.prettytime(t2)
+        m2s = BenchmarkTools.prettymemory(m2)
+        push!(lines, "| $ds | $t1s | $m1s | $t2s | $m2s |")
     end
     return join(lines, "\n")
 end
