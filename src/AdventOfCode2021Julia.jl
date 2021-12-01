@@ -30,8 +30,8 @@ export readInput
 for d in solvedDays
     global ds = @sprintf("day%02d.txt", d)
     global modSymbol = Symbol(@sprintf("Day%02d", d))
-    global dsSymbol_part1 = Symbol(@sprintf("day%02d_part1", d))
-    global dsSymbol_part2 = Symbol(@sprintf("day%02d_part2", d))
+    global dsSymbol_part1 = Symbol("part1")
+    global dsSymbol_part2 = Symbol("part2")
 
     @eval begin
         input_path = joinpath(@__DIR__, "..", "data", ds)
@@ -52,8 +52,8 @@ function benchmark(days=solvedDays)
     results = []
     for day in days
         modSymbol = Symbol(@sprintf("Day%02d", day))
-        fSymbol_part1 = Symbol(@sprintf("day%02d_part1", day))
-        fSymbol_part2 = Symbol(@sprintf("day%02d_part2", day))
+        fSymbol_part1 = Symbol("part1")
+        fSymbol_part2 = Symbol("part2")
         input = readInput(joinpath(@__DIR__, "..", "data", @sprintf("day%02d.txt", day)))
         @eval begin
             bresult_part1 = @benchmark(AdventOfCode2021Julia.$modSymbol.$fSymbol_part1($input))
