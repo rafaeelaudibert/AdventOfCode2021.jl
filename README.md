@@ -1,5 +1,7 @@
 # AdventOfCode2021.jl 🎄
 
+![Actions Status](https://github.com/rafaeelaudibert/adventofcode2021.jl/actions/workflows/ci.yml/badge.svg)
+
 This is a working in progress repository for 2021's [Advent of Code](https://adventofcode.com/2021).
 
 > **DISCLAIMER**: I have 0 to no-knowledge of Julia, and this is an attempt to learn a bit more about it. I'm doing my best, but please don't take this code as idiomatic Julia
