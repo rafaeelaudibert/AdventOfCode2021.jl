@@ -10,7 +10,8 @@ This is a working in progress repository for 2021's [Advent of Code](https://adv
 
 | Day | Part 1 Time | Part 1 Allocated memory | Part 2 Time | Part 2 Allocated memory |
 | --: | ----------: | ----------------------: | ----------: | ----------------------: |
-|   1 |  284.767 μs |              196.98 KiB |  289.079 μs |              259.98 KiB |
+|   1 |  284.449 μs |              196.98 KiB |  288.940 μs |              259.98 KiB |
+|   2 |  488.917 μs |              463.44 KiB |  488.359 μs |              463.44 KiB |
 
 > This table is generated with `AdventOfCode2021Julia._to_markdown_table()` using the `BenchmarkTools` lib
 
