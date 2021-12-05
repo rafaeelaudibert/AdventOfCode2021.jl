@@ -4,7 +4,7 @@ module AdventOfCode2021Julia
 using BenchmarkTools
 using Printf
 
-solvedDays = 1:4
+solvedDays = 1:5
 
 # Include the source files:
 for day in solvedDays
