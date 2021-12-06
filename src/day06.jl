@@ -11,27 +11,19 @@ function part2(input::String = readInput(joinpath(@__DIR__, "..", "data", "day06
 end
 
 function solve_for(input::String, iters::Int64)
-    @time parsed_input = parse.(Int, split(rstrip(input), ","))
-    table = zeros(Int128, iters + 1, 9) # Iters + 1 because it doesn't start on day 9
+    parsed_input = parse.(Int8, split(input, ","))
+    table = zeros(Int128, 9)
 
-    # Fill first row of the table
+    # Fill base values
     for value in parsed_input
-        table[1, value+1] = table[1, value+1] + 1
+        @inbounds table[value+1] = table[value+1] + 1
     end
 
-    # Unrolled because of efficiency
-    for iter = 1:iters
-        table[iter+1, 1] = table[iter, 2]
-        table[iter+1, 2] = table[iter, 3]
-        table[iter+1, 3] = table[iter, 4]
-        table[iter+1, 4] = table[iter, 5]
-        table[iter+1, 5] = table[iter, 6]
-        table[iter+1, 6] = table[iter, 7]
-        table[iter+1, 7] = table[iter, 8] + table[iter, 1] # Need to count the fishes which just reset
-        table[iter+1, 8] = table[iter, 9]
-        table[iter+1, 9] = table[iter, 1] # These are the new fishes
+    # Optimized recurrent logic
+    for iter = 1:iters-1
+        @inbounds table[((iter+7)%9)+1] += table[(iter%9)+1]
     end
 
-    return sum(table[iters+1, :])
+    return sum(table)
 end
 end
