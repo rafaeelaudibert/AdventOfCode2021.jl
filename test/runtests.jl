@@ -26,3 +26,8 @@ end
     @test AdventOfCode2021Julia.Day05.part1() == 5690
     @test AdventOfCode2021Julia.Day05.part2() == 17741
 end
+
+@testset "Day 6" begin
+    @test AdventOfCode2021Julia.Day06.part1() == 353274
+    @test AdventOfCode2021Julia.Day06.part2() == 1609314870967
+end
