@@ -17,6 +17,7 @@ This is a working in progress repository for 2021's [Advent of Code](https://adv
 |   5 |    7.244 ms |               13.58 MiB |   13.739 ms |               26.48 MiB |
 |   6 |   34.069 μs |               22.69 KiB |   34.613 μs |               22.69 KiB |
 |   7 |    2.215 ms |               14.91 MiB |    3.710 ms |               14.91 MiB |
+|   8 |    1.032 ms |              824.61 KiB |    5.881 ms |                4.15 MiB |
 
 > This table is generated with `AdventOfCode2021Julia._to_markdown_table()` using the `BenchmarkTools` lib
 
